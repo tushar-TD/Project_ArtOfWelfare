@@ -1,16 +1,17 @@
 
 import './App.css';
 import Navbar from './Components/Navbar';
-import UserForm from './Components/UserForm';
+
+
+
 
 function App() {
   return (
     <div >
-      <header >
+      <header>
         <Navbar />
-
       </header>
-    </div>
+    </div >
   );
 }
 

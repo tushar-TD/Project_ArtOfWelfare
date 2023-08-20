@@ -1,1 +1,2 @@
 # Project_ArtOfWelfare
+ArtForWelfare presents a transformative initiative that fuses the creative brilliance of artists with the vital needs of non-governmental organizations (NGOs). Our project acts as a bridge between artistic expression and impactful social change, allowing artists to contribute their talents to support NGOs. Through this unique platform, artists create and showcase their works, while customers purchase these artworks, with the funds directly benefiting NGOs dedicated to making a positive impact on society.

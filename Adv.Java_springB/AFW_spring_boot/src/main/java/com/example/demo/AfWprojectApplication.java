@@ -2,12 +2,14 @@ package com.example.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-public class AfwSpringBootApplication {
+@ComponentScan(basePackages = "com.example.demo")
+public class AfWprojectApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AfwSpringBootApplication.class, args);
+		SpringApplication.run(AfWprojectApplication.class, args);
 	}
 
 }

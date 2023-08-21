@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer, useState } from 'react'
 
 
-export default function Reg_Customer() {
+export default function CustomerReg() {
   const init = {
     fname: "",
     lname: "",
@@ -63,12 +63,12 @@ export default function Reg_Customer() {
       });
   };
   const getAreas = (id) => {
-    fetch("http://localhost:8080/getAllAreas?cityid=" + id)
+    fetch("http://localhost:8080/getAllAreas?cityid="+id)
       .then((resp) => resp.json())
       .then((a) => setAllarea(a));
   };
   const getcities = (id) => {
-    fetch("http://localhost:8080/getAllCities?stateid=" + id)
+    fetch("http://localhost:8080/getAllCities?stateid="+id)
       .then((resp) => resp.json())
       .then((c) => setAllcities(c));
   };

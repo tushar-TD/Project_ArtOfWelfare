@@ -82,12 +82,11 @@ END;
 //
 DELIMITER ;
 
-
 -- -----------------------------------------------------
 -- Table `afs`.`admin`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `afs`.`admins` (
-  `admin_id` INT UNIQUE AUTO_INCREMENT,
+  `admin_id` INT AUTO_INCREMENT UNIQUE,
   `user_id` INT NOT NULL,
   `fname` VARCHAR(50) NOT NULL,
   `lname` VARCHAR(50) NULL DEFAULT NULL,
@@ -95,12 +94,10 @@ CREATE TABLE IF NOT EXISTS `afs`.`admins` (
   INDEX `user_id` (`user_id` ASC) VISIBLE,
   CONSTRAINT `admin_ibfk_1`
     FOREIGN KEY (`user_id`)
-    REFERENCES `afs`.`users` (`user_id`)) AUTO_INCREMENT = 901
+    REFERENCES `afs`.`users` (`user_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
-
-
 
 -- -----------------------------------------------------
 -- Table `afs`.`state`
@@ -154,11 +151,13 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `afs`.`artists` (
   `artist_id` INT NOT NULL UNIQUE AUTO_INCREMENT,
   `user_id` INT NOT NULL,
-  `fname` VARCHAR(255) NOT NULL,
-  `lname` VARCHAR(255) NULL DEFAULT NULL,
+  `fname` VARCHAR(50) NOT NULL,
+  `lname` VARCHAR(50) NULL DEFAULT NULL,
   `area_id` INT NOT NULL,
   `address` VARCHAR(255) NULL DEFAULT NULL,
   `contact` VARCHAR(20) NOT NULL UNIQUE,
+  `speciality` VARCHAR(100) NULL DEFAULT NULL,
+  
   PRIMARY KEY (`artist_id`),
   INDEX `user_id` (`user_id` ASC) VISIBLE,
   INDEX `area_id` (`area_id` ASC) VISIBLE,
@@ -197,7 +196,7 @@ CREATE TABLE IF NOT EXISTS `afs`.`ngo` (
   `address` VARCHAR(255) NOT NULL,
   `contact` VARCHAR(20) NOT NULL UNIQUE ,
   `certificate` BLOB NULL DEFAULT NULL,
-  `account_no` INT NULL DEFAULT NULL,
+  `account_no` VARCHAR(50) NULL DEFAULT NULL,
   PRIMARY KEY (`ngo_id`),
   INDEX `user_id` (`user_id` ASC) VISIBLE,
   INDEX `area_id` (`area_id` ASC) VISIBLE,
@@ -282,6 +281,7 @@ CREATE TABLE IF NOT EXISTS `afs`.`afw_fund` (
   `afwf_id` INT NOT NULL AUTO_INCREMENT,
   `art_id` INT NOT NULL,
   `amount` DECIMAL(10,2) NULL DEFAULT NULL,
+  `datetime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`afwf_id`),
   INDEX `art_id` (`art_id` ASC) VISIBLE,
   CONSTRAINT `afw_fund_ibfk_1`
@@ -318,44 +318,6 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `afs`.`cart`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `afs`.`cart` (
-  `cart_id` INT NOT NULL AUTO_INCREMENT,
-  `cust_id` INT NOT NULL,
-  PRIMARY KEY (`cart_id`),
-  INDEX `cust_id` (`cust_id` ASC) VISIBLE,
-  CONSTRAINT `cart_ibfk_1`
-    FOREIGN KEY (`cust_id`)
-    REFERENCES `afs`.`customers` (`cust_id`)) AUTO_INCREMENT = 9001
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
-
--- -----------------------------------------------------
--- Table `afs`.`cart_details`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `afs`.`cart_details` (
-  `cd_id` INT NOT NULL AUTO_INCREMENT,
-  `cart_id` INT NOT NULL ,
-  `art_id` INT NOT NULL ,
-  PRIMARY KEY (`cd_id`),
-  INDEX `cart_id` (`cart_id` ASC) VISIBLE,
-  INDEX `art_id` (`art_id` ASC) VISIBLE,
-  CONSTRAINT `cart_details_ibfk_1`
-    FOREIGN KEY (`cart_id`)
-    REFERENCES `afs`.`cart` (`cart_id`),
-  CONSTRAINT `cart_details_ibfk_2`
-    FOREIGN KEY (`art_id`)
-    REFERENCES `afs`.`arts` (`art_id`)) AUTO_INCREMENT = 9401
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
 -- Table `afs`.`ngo_fund`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `afs`.`ngo_fund` (
@@ -363,6 +325,7 @@ CREATE TABLE IF NOT EXISTS `afs`.`ngo_fund` (
   `ngo_id` INT NOT NULL ,
   `art_id` INT NOT NULL,
   `amount` DECIMAL(10,2) NULL DEFAULT NULL,
+  `datetime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`nf_id`),
   INDEX `ngo_id` (`ngo_id` ASC) VISIBLE,
   INDEX `art_id` (`art_id` ASC) VISIBLE,
@@ -382,14 +345,16 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `afs`.`orders` (
   `order_id` INT NOT NULL AUTO_INCREMENT,
-  `cart_id` INT NOT NULL,
+  `cust_id` INT NOT NULL,
   `amount` DECIMAL(10,2) NOT NULL,
-  `date` DATE,
+  `datetime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`order_id`),
-  INDEX `cart_id` (`cart_id` ASC) VISIBLE,
-  CONSTRAINT `orders_ibfk_1`
-    FOREIGN KEY (`cart_id`)
-    REFERENCES `afs`.`cart` (`cart_id`)
+  INDEX `fk_cust_id_idx` (`cust_id` ASC) VISIBLE,
+  CONSTRAINT `fk_cust_id`
+    FOREIGN KEY (`cust_id`)
+    REFERENCES `afs`.`customers` (`cust_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 ) AUTO_INCREMENT = 7001
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -397,15 +362,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 
-DELIMITER //
-CREATE TRIGGER set_default_date
-BEFORE INSERT ON `afs`.`orders`
-FOR EACH ROW
-BEGIN
-  SET NEW.date = CURRENT_DATE;
-END;
-//
-DELIMITER ;
+
 
 -- -----------------------------------------------------
 -- Table `afs`.`order_details`
@@ -454,6 +411,8 @@ DELIMITER ;
 
 -- Insert data into afs.roles table
 
+
+
 INSERT INTO `afs`.`roles` (`role_name`)
 VALUES
     ('Admin'),
@@ -493,6 +452,17 @@ VALUES
 
 
 
+-- Insert data into afs.state table
+
+INSERT INTO afs.states (state_name)
+VALUES
+    ('Delhi'),
+    ('Maharashtra'),
+    ('Karnataka'),
+    ('Tamil Nadu'),
+    ('Uttar Pradesh');
+
+
 -- Insert data into afs.admin table
 
 INSERT INTO afs.admins (user_id, fname, lname)
@@ -503,15 +473,6 @@ VALUES
     (1013, 'Emily', 'Johnson');
 
 
--- Insert data into afs.state table
-
-INSERT INTO afs.states (state_name)
-VALUES
-    ('Delhi'),
-    ('Maharashtra'),
-    ('Karnataka'),
-    ('Tamil Nadu'),
-    ('Uttar Pradesh');
 
 -- Insert data into afs.city table
 
@@ -537,13 +498,13 @@ VALUES
 
 -- Insert data into afs.artists table    
 
-INSERT INTO afs.artists (user_id, fname, lname, area_id, contact)
+INSERT INTO afs.artists (user_id, fname, lname, area_id, contact, speciality)
 VALUES
-    (1002, 'Jane', 'Smith', 141, '555-1234'),
-    (1005, 'Artist', 'Two', 142, '555-5555'), 
-    (1014, 'Jane', 'Smith', 141, '555-1235'), 
-    (1015, 'William', 'Brown', 142, '555-5678'),
-    (1016, 'Michael', 'Johnson', 141, '555-7890');
+    (1002, 'Jane', 'Smith', 141, '555-1234', 'Impressionism'),
+    (1005, 'Artist', 'Two', 142, '555-5555', 'Abstract'),
+    (1014, 'Jane', 'Smith', 141, '555-1235', 'Realism'),
+    (1015, 'William', 'Brown', 142, '555-5678', 'Cubism'),
+    (1016, 'Michael', 'Johnson', 141, '555-7890', 'Surrealism');
 
 -- Insert data into afs.customers table
     
@@ -602,5 +563,7 @@ VALUES
     (2005, 208, 240.00, 5001, 'Handcrafted ceramic bowl', 'Handcrafted Ceramic Bowl', 'ceramic_bowl.jpg'),
     (2003, 209, 110.00, 5002, 'Textile artwork inspired by nature', 'Nature-Inspired Textile Art', 'nature_textile.jpg');
 
+    
+  
     
   

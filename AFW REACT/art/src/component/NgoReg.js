@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer, useState } from 'react'
+import { Navigate } from 'react-router-dom';
 
-
-export default function CustomerReg() {
+function NgoReg() {
   const init = {
     fname: "",
     lname: "",
@@ -13,7 +13,8 @@ export default function CustomerReg() {
     state_id: 0,
     user_name: "",
     password: "",
-    role: 3,
+    account_no: "",
+    role: 4,
     que_id: 0,
     answer: ""
 
@@ -35,7 +36,9 @@ export default function CustomerReg() {
   const [allcities, setAllcities] = useState([]);
   const [allques, setAllques] = useState([]);
   const [allstates, setAllstates] = useState([]);
+  const [file, setFile] = useState();
 
+  //file+json data
   const sendData = (e) => {
     e.preventDefault();
     const reqOptions = {
@@ -43,7 +46,7 @@ export default function CustomerReg() {
       headers: { "content-type": "application/json" },
       body: JSON.stringify(info),
     };
-    fetch("http://localhost:8080/regCustomer", reqOptions)
+    fetch("http://localhost:8080/regNGO", reqOptions)
       .then((resp) => {
         resp.json();
         console.log(resp.status);
@@ -56,6 +59,31 @@ export default function CustomerReg() {
           window.location.reload();
         }
       })
+      .then(obj => {
+        const fd = new FormData();
+
+        fd.append("file", file);
+        const reqOptions1 = {
+          method: "POST",
+          headers: {
+            'content-type': 'multipart/form-data '
+          },
+          body: fd
+        }
+        fetch("http://localhost:8080/uploadImage/" + obj.ngo_id, reqOptions1)
+          .then(resp => resp.json())
+          .then(obj => {
+            if (obj) {
+              alert("Registration successfull");
+              Navigate('/');
+            }
+            else {
+              alert("Image unable to updateTry again!");
+              Navigate('/');
+            }
+          })
+          .then(data => console.log(JSON.stringify(data)))
+      })
       .catch((e) => {
         console.log(e);
         alert("Registration Failed.");
@@ -63,12 +91,12 @@ export default function CustomerReg() {
       });
   };
   const getAreas = (id) => {
-    fetch("http://localhost:8080/getAllAreas?cityid="+id)
+    fetch("http://localhost:8080/getAllAreas?cityid=" + id)
       .then((resp) => resp.json())
       .then((a) => setAllarea(a));
   };
   const getcities = (id) => {
-    fetch("http://localhost:8080/getAllCities?stateid="+id)
+    fetch("http://localhost:8080/getAllCities?stateid=" + id)
       .then((resp) => resp.json())
       .then((c) => setAllcities(c));
   };
@@ -83,9 +111,11 @@ export default function CustomerReg() {
   }, []);
 
 
+
+
   return (
     <div>
-      <h2 className='header d-flex justify-content-center align-items-center'>Customer Registration Form</h2>
+      <h2 className='header d-flex justify-content-center align-items-center'>NGO Registration Form</h2>
       <div className='container d-flex justify-content-center align-items-center' >
 
         <form className='col-md-6 p-4 rounded bg-light' >
@@ -230,6 +260,33 @@ export default function CustomerReg() {
             </select>
           </div>
 
+          <div className="mb-3">
+            <label className="form-label">Account Number:</label>
+            <input
+              type="text"
+              className="form-control"
+              id="acc"
+              value={info.account_no}
+              onChange={(e) => {
+                dispatch({
+                  type: 'update', fld: 'acc', val: e.target.value
+                })
+              }}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">NGO's Certificate:</label>
+            <input
+              type="file"
+              className="form-control"
+              id="certificate"
+              onChange={(e) => setFile(e.target.files[0])}
+            />
+          </div>
+
+
+
           <br />
           <div className="mb-3">
             <label className="form-label"> User Name:</label>
@@ -304,7 +361,7 @@ export default function CustomerReg() {
       </ div >
       <p>{JSON.stringify(info)}</p>
     </div>
-
-
   )
 }
+
+export default NgoReg

@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer, useState } from 'react'
 
 
-export default function Reg_Customer() {
+export default function CustomerReg() {
   const init = {
     fname: "",
     lname: "",

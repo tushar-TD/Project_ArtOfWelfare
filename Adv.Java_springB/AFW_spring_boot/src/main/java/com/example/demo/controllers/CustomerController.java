@@ -12,9 +12,9 @@ import com.example.demo.entities.Customer;
 import com.example.demo.entities.CustomerReg;
 import com.example.demo.entities.Login;
 import com.example.demo.entities.Role;
-import com.example.demo.service.CustomerService;
-import com.example.demo.service.LoginService;
-import com.example.demo.service.RoleService;
+import com.example.demo.services.CustomerService;
+import com.example.demo.services.LoginService;
+import com.example.demo.services.RoleService;
 
 @CrossOrigin(origins="http://localhost:3000")
 @RestController

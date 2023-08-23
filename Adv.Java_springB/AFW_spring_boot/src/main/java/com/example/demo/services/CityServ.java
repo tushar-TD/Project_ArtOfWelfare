@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.services;
 
 import java.util.List;	
 
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.entities.City;
 import com.example.demo.entities.State;
-import com.example.demo.repository.CityRepo;
+import com.example.demo.repositories.CityRepo;
 
 
 @Service

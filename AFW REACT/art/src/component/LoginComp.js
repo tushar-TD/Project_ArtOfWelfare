@@ -48,7 +48,7 @@ export default function LoginComp() {
                     }
                     else {
                         reduxAction(login())
-                        if (obj.role_id.role_id == 1) {
+                        if (obj.role_id.role_id === 1) {
                             navigate("/admin_home");
                         }
                         else if (obj.role_id.role_id === 2) {

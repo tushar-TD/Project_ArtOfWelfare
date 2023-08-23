@@ -11,12 +11,11 @@ import LogoutComp from './component/LogoutComp';
 import ForgotPassword from './component/ForgotPassword';
 import CustomerReg from './component/CustomerReg';
 import NgoReg from './component/NgoReg';
+import ArtGallery from './component/ArtGallery';
 
 function App() {
   //referering initial state of logged
   const mystate = useSelector((state) => state.logged);
-
-
   return (
     <div>
       <div style={{ display: mystate.loggedIn ? "none" : "block" }}>
@@ -39,10 +38,14 @@ function App() {
                 <li className='nav-item'>
                   <Link to="reg_artist" className='nav-link px-3'>Artist Registration</Link>
                 </li>
+                <li className='nav-item'>
+                  <Link to="ArtGallaery" className='nav-link px-3'></Link>
+                </li>
               </ul>
             </div>
           </div>
         </nav>
+        <ArtGallery />
       </div>
 
 
@@ -56,6 +59,7 @@ function App() {
         <Route path='/forgotpassword' element={<ForgotPassword></ForgotPassword>}></Route>
         <Route path='/reg_customer' element={<CustomerReg></CustomerReg>}></Route>
         <Route path='/NgoReg' element={<NgoReg></NgoReg>}></Route>
+        <Route path='/ArtGallaery' element={<ArtGallery ></ArtGallery>} />
       </Routes>
 
       <h1 className="bg-primary text-center p-4">Welcome to Art for Welfare Platform</h1>

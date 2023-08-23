@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entities.LoginCheck;
-import com.example.demo.service.ForgotPwdService;
+import com.example.demo.services.ForgotPwdService;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController

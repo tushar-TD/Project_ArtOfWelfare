@@ -1,7 +1,14 @@
-export default function ArtistHome(){
-    return(
-        <div>
-            <h1>Artist's Home Page</h1>
-        </div>
-    )
+import React from 'react'
+
+
+
+function ArtistHome() {
+  return (
+    <div>
+      <h1>Welcome to Artist home!</h1>
+
+    </div>
+  )
 }
+
+export default ArtistHome

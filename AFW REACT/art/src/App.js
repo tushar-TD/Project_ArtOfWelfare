@@ -1,74 +1,130 @@
-import './App.css';
-import 'bootstrap'
-import { Link, Route, Routes } from 'react-router-dom';
-import LoginForm from './component/LoginComp';
+import { Link, NavLink, Navigate, Route, Routes } from "react-router-dom";
+import "./App.css";
+import Home from "./components/Home";
 
-import NgoHome from './component/NgoHome';
-import CustomerHome from './component/CustomerHome';
-
-import { useSelector } from 'react-redux';
-import LogoutComp from './component/LogoutComp';
-import ForgotPassword from './component/ForgotPassword';
-import CustomerReg from './component/CustomerReg';
-import NgoReg from './component/NgoReg';
-import ArtGallery from './component/ArtGallery';
-import Navcart from './component/Cart/Navcart';
+import { useSelector } from "react-redux";
+import LoginComp from "./components/LoginComp";
+import AdminHome from "./components/AdminHome";
+import NgoHome from "./components/NgoHome";
+import CustomerHome from "./components/CustomerHome";
+import ArtistHome from "./components/ArtistHome";
+import LogoutComp from "./components/LogoutComp";
+import ForgotPassword from "./components/ForgotPassword";
+import CustomerReg from "./components/CustomerReg";
+import ArtistReg from "./components/ArtistReg";
+import artlogo from "../src/images/artlogo1.png";
+import NgoReg from "./components/NgoReg";
 
 function App() {
   //referering initial state of logged
   const mystate = useSelector((state) => state.logged);
   return (
-
     <div>
-
       <div style={{ display: mystate.loggedIn ? "none" : "block" }}>
-        {/* <nav className='navbar navbar-expand-sm bg-light mb-3'>
-          <div className='container-fluid'>
-            <div className='collapse navbar-collapse'>
-              <ul className='navbar-nav mr-auto'>
-                <li className='nav-item'>
-                  <Link to="login" className='nav-link px-3'>Login</Link>
+        <nav
+          class="navbar bg-dark navbar-expand-lg bg-body-tertiary"
+          data-bs-theme="dark"
+        >
+          <div class="container">
+            <a class="navbar-brand" href="#">
+              <img
+                src={artlogo}
+                height="66"
+                alt="logo"
+                loading="lazy"
+                style={{ marginTop: "-1px" }}
+              />
+            </a>
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li className="nav-item mx-2">
+                  <NavLink className="nav-link white" to="/homepage">
+                    Home
+                  </NavLink>
                 </li>
-                <li className='nav-item'>
-                  <Link to="home" className='nav-link px-3'>Home</Link>
+                <li className="nav-item mx-2">
+                  <NavLink className="nav-link white" to="/aboutuspage">
+                    About Us
+                  </NavLink>
                 </li>
-                <li className='nav-item'>
-                  <Link to="reg_customer" className='nav-link px-3'>Customer Registration</Link>
+                <li className="nav-item mx-2">
+                  <NavLink className="nav-link white" to="/contactpage">
+                    Contact
+                  </NavLink>
                 </li>
-                <li className='nav-item'>
-                  <Link to="NgoReg" className='nav-link px-3'>NGO Registration</Link>
-                </li>
-                <li className='nav-item'>
-                  <Link to="reg_artist" className='nav-link px-3'>Artist Registration</Link>
-                </li>
-                <li className='nav-item'>
-                  <Link to="ArtGallaery" className='nav-link px-3'></Link>
+
+                <li class="nav-item dropdown pe-4">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Registration
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <Link to="reg_customer" className="dropdown-item ">
+                        Customer Registration
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="reg_ngo"
+                        className="dropdown-item nav-link px-3"
+                      >
+                        NGO Registration
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="reg_artist"
+                        className="dropdown-item nav-link px-3"
+                      >
+                        Artist Registration
+                      </Link>
+                    </li>
+                  </ul>
                 </li>
               </ul>
             </div>
+            <Link className="btn btn-warning white px-3" to="/login">
+              <b>Login</b>
+            </Link>
           </div>
-        </nav> */}
-
-        {/* <ArtGallery /> */}
-        <Navcart />
+        </nav>
       </div>
 
-
       <Routes>
-        <Route path='/login' element={<LoginForm></LoginForm>}></Route>
-        { }
-        <Route path='/ngo_home' element={<NgoHome></NgoHome>}></Route>
-        <Route path='/customer_home' element={<CustomerHome></CustomerHome>}></Route>
-        <Route path='/logout' element={<LogoutComp></LogoutComp>}></Route>
-        <Route path='/forgotpassword' element={<ForgotPassword></ForgotPassword>}></Route>
-        <Route path='/reg_customer' element={<CustomerReg></CustomerReg>}></Route>
-        <Route path='/NgoReg' element={<NgoReg></NgoReg>}></Route>
-        <Route path='/ArtGallaery' element={<ArtGallery ></ArtGallery>} />
+        <Route element={<Home />} path="homepage" />
 
+        <Route path="/login" element={<LoginComp />}></Route>
+        <Route path="/admin_home" element={<AdminHome />}></Route>
+        <Route path="/ngo_home" element={<NgoHome />}></Route>
+        <Route path="/customer_home" element={<CustomerHome />}></Route>
+        <Route path="/artist_home" element={<ArtistHome />}></Route>
+        <Route path="/logout" element={<LogoutComp />}></Route>
+        <Route path="/forgotpassword" element={<ForgotPassword />}></Route>
+        <Route path="/reg_customer" element={<CustomerReg />}></Route>
+        <Route path="/reg_ngo" element={<NgoReg />}></Route>
+        <Route path="/reg_artist" element={<ArtistReg />}></Route>
+
+        <Route exact element={<Navigate to="/homepage" />} path="/" />
+        <Route exact element={<Navigate to="/404" />} path="*" />
       </Routes>
-
-      <h1 className="bg-primary text-center p-4">Welcome to Art for Welfare Platform</h1>
-    </div >
+    </div>
   );
 }
 

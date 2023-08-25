@@ -1,10 +1,20 @@
 /* Cart.css */
 
+.cart-container {
+  display: flex;
+  justify-content: flex-end;
+  /* Align the cart to the right side of the container */
+}
+
 .cart {
   border: 1px solid #ccc;
   padding: 20px;
   border-radius: 8px;
   margin-top: 20px;
+  right: 30%;
+  max-width: 300px;
+
+  /* Set a maximum width to prevent the cart from getting too wide */
 }
 
 .cart h2 {

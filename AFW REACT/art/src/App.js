@@ -15,8 +15,8 @@ import ArtistReg from "./components/ArtistReg";
 import artlogo from "../src/images/artlogo1.png";
 import NgoReg from "./components/NgoReg";
 import ArtGallery from "./components/ArtGallery";
-import Cart
-  from "./components/Cart";
+import Cart from "./components/Cart";
+
 function App() {
   //referering initial state of logged
   const mystate = useSelector((state) => state.logged);
@@ -56,11 +56,7 @@ function App() {
                     Home
                   </NavLink>
                 </li>
-                <li className="nav-item mx-2">
-                  <NavLink className="nav-link white" to="/Art_gallery">
-                    Gallery
-                  </NavLink>
-                </li>
+
                 <li className="nav-item mx-2">
                   <NavLink className="nav-link white" to="/aboutuspage">
                     About Us
@@ -127,13 +123,14 @@ function App() {
         <Route path="/reg_customer" element={<CustomerReg />}></Route>
         <Route path="/reg_ngo" element={<NgoReg />}></Route>
         <Route path="/reg_artist" element={<ArtistReg />}></Route>
-        <Route path="/Art_gallery" element={<ArtGallery />}></Route>
-        <Route path="/cart" element={<Cart />}></Route>
+        <Route path="/ArtGallery" element={<ArtGallery />}></Route>
+        <Route path="/cart_page" element={<Cart />} ></Route>
+
 
         <Route exact element={<Navigate to="/homepage" />} path="/" />
         <Route exact element={<Navigate to="/404" />} path="*" />
       </Routes>
-    </div>
+    </div >
   );
 }
 

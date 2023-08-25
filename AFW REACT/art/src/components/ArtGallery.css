@@ -1,10 +1,43 @@
 /* ArtGallery.css */
 
+/* ArtGallery.css */
+
+.art-gallery {
+  display: flex;
+  justify-content: space-between;
+  /* This will create space between art pieces and the cart */
+  align-items: flex-start;
+  /* Align items at the top of the flex container */
+}
+
+.cart-container {
+  width: 30%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  background-color: lightgray;
+  /* Just for visualization, you can remove this */
+  overflow-y: auto;
+  /* Add scroll if cart content overflows vertically */
+}
+
+
+
 .art-gallery {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
   padding: 20px;
+  width: 70%;
+  width: 70%;
+  /* Take up 70% of the container's width */
+  background-color: lightgray;
+  /* Just for visualization, you can remove this */
+  padding: 20px;
+  /* Add padding for spacing */
+  box-sizing: border-box;
+  /* Include padding in the width calculation */
 }
 
 .art-card {

@@ -14,8 +14,6 @@ const CartItem = ({ item, removeFromCart }) => (
   </div>
 );
 
-// to fetch the dataof art which are present in the cart
-
 const fetchCartArtData = async (cart) => {
   try {
     const artIds = cart.map(item => item.art_id);
@@ -33,11 +31,18 @@ const fetchCartArtData = async (cart) => {
   }
 };
 
-fetchCartArtData(Cart);
-
 const Cart = ({ cart, removeFromCart }) => {
   const calculateTotalPrice = () => {
     return cart.reduce((total, item) => total + item.price, 0);
+  };
+
+  const handleBuyNow = async () => {
+    const artData = await fetchCartArtData(cart);
+
+    // Here you can implement your logic for making a purchase,
+    // such as sending the cart data to a backend server.
+    // For now, let's just show an alert for a successful purchase.
+    alert('Purchase Successful!');
   };
 
   return (
@@ -52,7 +57,7 @@ const Cart = ({ cart, removeFromCart }) => {
           ))}
           <div className="cart-total">
             <h5 className='text-warning bg-black my-2 p-4'>Total Price : <span className='text-success fw-bolder fs-2 ms-5 ps-4'> ₹ {calculateTotalPrice()}</span></h5>
-            <button className='btn btn-success btn-block' onClick={() => alert('Purchase Successful!')}>
+            <button className='btn btn-success btn-block' onClick={handleBuyNow}>
               Buy Now
             </button>
           </div>

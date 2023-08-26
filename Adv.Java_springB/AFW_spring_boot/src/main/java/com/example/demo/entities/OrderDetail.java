@@ -1,6 +1,9 @@
 package com.example.demo.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -12,14 +15,22 @@ import javax.persistence.Table;
 public class OrderDetail {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int od_id;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name="order_id")
 	Order order_id;
 	
 	
 	int art_id;
+	
+
+	@Override
+	public String toString() {
+		return "OrderDetail [od_id=" + od_id + ", order_id=" + order_id + ", art_id=" + art_id + "]";
+	}
+
 
 
 	public OrderDetail() {
@@ -66,8 +77,4 @@ public class OrderDetail {
 		this.art_id = art_id;
 	}
 
-
-	
-	
-	
 }

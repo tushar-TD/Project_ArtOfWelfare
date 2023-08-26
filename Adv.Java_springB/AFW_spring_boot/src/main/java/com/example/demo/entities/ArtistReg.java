@@ -1,14 +1,13 @@
 package com.example.demo.entities;
 
+public class ArtistReg {
 
-
-public class NgoReg {
-	
-	String ngo_name;
-	String domain;
+	String fname;
+	String lname;
 	String email;
 	String contact;
 	String address;
+	String speciality;
 	int state_id;
 	int city_id;
 	int area_id;
@@ -16,27 +15,18 @@ public class NgoReg {
 	String password;
 	int que_id;
 	String answer;
-	String Account_no;
-	int role_id;
 	
-	public int getRole_id() {
-		return role_id;
+	public String getFname() {
+		return fname;
 	}
-	public void setRole_id(int role_id) {
-		this.role_id = role_id;
+	public void setFname(String fname) {
+		this.fname = fname;
 	}
-
-	public String getNgo_name() {
-		return ngo_name;
+	public String getLname() {
+		return lname;
 	}
-	public void setNgo_name(String ngo_name) {
-		this.ngo_name = ngo_name;
-	}
-	public String getDomain() {
-		return domain;
-	}
-	public void setDomain(String domain) {
-		this.domain = domain;
+	public void setLname(String lname) {
+		this.lname = lname;
 	}
 	public String getEmail() {
 		return email;
@@ -55,6 +45,12 @@ public class NgoReg {
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	public String getSpeciality() {
+		return speciality;
+	}
+	public void setSpeciality(String speciality) {
+		this.speciality = speciality;
 	}
 	public int getState_id() {
 		return state_id;
@@ -98,14 +94,6 @@ public class NgoReg {
 	public void setAnswer(String answer) {
 		this.answer = answer;
 	}
-	public String getAccount_no() {
-		return Account_no;
-	}
-	public void setAccount_no(String account_no) {
-		Account_no = account_no;
-	}
-	
-	
 	
 	
 

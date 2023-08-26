@@ -55,6 +55,15 @@ public class Login {
 
 
 
+	
+	
+	
+
+
+
+
+
+
 	public Login(String user_name, String password, Role role_id, boolean approve, String email, int que_id,
 			String answer) {
 		super();
@@ -66,10 +75,6 @@ public class Login {
 		this.que_id = que_id;
 		this.answer = answer;
 	}
-
-
-
-
 
 
 	public int getUser_id() {
@@ -134,7 +139,6 @@ public class Login {
 		return que_id;
 	}
 
-
 	public void setQue_id(int que_id) {
 		this.que_id = que_id;
 	}
@@ -149,7 +153,5 @@ public class Login {
 		this.answer = answer;
 	}
 
-	
-	
-	
+		
 }

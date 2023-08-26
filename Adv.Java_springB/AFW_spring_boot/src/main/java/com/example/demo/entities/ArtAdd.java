@@ -10,6 +10,7 @@ public class ArtAdd {
 	String description;
 	String art_name;
 	byte[] image;
+	
 	public int getArt_id() {
 		return art_id;
 	}

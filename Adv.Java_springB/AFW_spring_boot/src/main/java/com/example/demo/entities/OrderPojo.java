@@ -10,8 +10,16 @@ public class OrderPojo {
 	float amount;
 	String payment_id;
 	String pay_mode;
+	Date datetime;
 	List<Integer> art_id;
 	
+	
+	public Date getDatetime() {
+		return datetime;
+	}
+	public void setDatetime(Date datetime) {
+		this.datetime = datetime;
+	}
 	public int getCust_id() {
 		return cust_id;
 	}

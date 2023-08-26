@@ -1,5 +1,6 @@
 package com.example.demo.entities;
 
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -8,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name="orders")
@@ -30,6 +32,7 @@ public class Order {
 	
 	@Column
 	String pay_mode;
+	
 
 	public Order() {
 		super();
@@ -38,12 +41,20 @@ public class Order {
 
 	
 
-	public Order(int cust_id, float amount, String payment_id, String pay_mode) {
+	public Order(int cust_id, float amount, String payment_id, String pay_mode,Date datetime) {
 		super();
 		this.cust_id = cust_id;
 		this.amount = amount;
 		this.payment_id = payment_id;
 		this.pay_mode = pay_mode;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Order [order_id=" + order_id + ", cust_id=" + cust_id + ", amount=" + amount + ", datetime=" + datetime
+				+ ", payment_id=" + payment_id + ", pay_mode=" + pay_mode + "]";
 	}
 
 

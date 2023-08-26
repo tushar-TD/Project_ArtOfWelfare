@@ -29,6 +29,12 @@ public class LoginService {
 	}
 	
 	
+	public Login checkSecurityAnswer(String emailid,String answer)
+	{
+		return lrepo.checkAnswer(emailid,answer).get();
+	}
+	
+	
 	public Login getByID(int user_id)
 	{
 		return lrepo.findById(user_id).get();

@@ -28,6 +28,12 @@ public class Question {
 		this.que_id = que_id;
 		this.que_text = que_text;
 	}
+	
+
+	public Question(String que_text) {
+		super();
+		this.que_text = que_text;
+	}
 
 	public int getQue_id() {
 		return que_id;

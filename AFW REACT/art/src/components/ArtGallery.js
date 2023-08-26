@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import './ArtGallery.css'; // Import your CSS file if needed
 
@@ -20,6 +21,8 @@ const ArtGallery = () => {
     };
 
     fetchData();
+    const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    setCartItems(storedCartItems);
   }, []);
 
   useEffect(() => {
@@ -27,15 +30,10 @@ const ArtGallery = () => {
     setCartItems(storedCartItems);
   }, []);
 
-  // const addToCart = (artPiece) => {
-  //   const updatedCartItems = [...cartItems, artPiece];
-  //   localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
-  //   setCartItems(updatedCartItems);
-  // };
   const addToCart = (artPiece) => {
-    const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-    storedCartItems.push(artPiece);
-    localStorage.setItem('cartItems', JSON.stringify(storedCartItems));
+    const updatedCartItems = [...cartItems, artPiece];
+    localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+    setCartItems(updatedCartItems);
   };
 
   return (

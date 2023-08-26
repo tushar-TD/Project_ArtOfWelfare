@@ -31,8 +31,8 @@ export default function AdminHome(){
     })
     .then(obj => {
       alert("Request accepted..check application status");
-     // navigate("/admin_home");
-      window.location.reload(true);
+      navigate("/admin_home");
+      //window.location.reload(true);
   
     })
     .catch((error)=>alert("Server error. Try later"))

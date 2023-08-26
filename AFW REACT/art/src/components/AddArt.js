@@ -1,6 +1,7 @@
 import React, {useEffect, useReducer, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function AddArt() {
   //const loggedArtist = JSON.parse(localStorage.getItem("loggedartist")).artist_id;
@@ -64,12 +65,14 @@ export default function AddArt() {
             console.log(resp);
             if(resp.status === 200)
             {
-              alert("Art added successful")
-              navigate('/artist_home');
+              toast.success("Art added successfully", {
+                onClose: () => navigate('/artist_home')
+              });
             }
             else {
-              alert("Image unable to update.Try again!!");
-              navigate('/artist_home');
+              toast.error("Image unable to update. Try again!!", {
+                onClose: () => navigate('/artist_home')
+              });
             }
           })
           .then(data => console.log(JSON.stringify(data)))
@@ -98,6 +101,7 @@ export default function AddArt() {
 
       return (
         <div>
+          <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
           <h2 className='header d-flex justify-content-center align-items-center'>ADD ART</h2>
           <div className='container d-flex justify-content-center align-items-center' >
     
@@ -213,8 +217,6 @@ export default function AddArt() {
           </button>
         </form>
       </ div >
-      <p>{JSON.stringify(info)}</p>
-      <p>Artist ID: {artist_id}</p>
     </div>
   )
 }

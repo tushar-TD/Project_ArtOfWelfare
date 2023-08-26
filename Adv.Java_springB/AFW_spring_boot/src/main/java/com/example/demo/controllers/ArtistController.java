@@ -8,20 +8,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.entities.Artist;
+import com.example.demo.entities.ArtistReg;
 import com.example.demo.entities.Customer;
 import com.example.demo.entities.CustomerReg;
 import com.example.demo.entities.Login;
 import com.example.demo.entities.Role;
+import com.example.demo.services.ArtistService;
 import com.example.demo.services.CustomerService;
 import com.example.demo.services.LoginService;
 import com.example.demo.services.RoleService;
 
 @CrossOrigin(origins="http://localhost:3000")
 @RestController
-public class CustomerController {
-
+public class ArtistController {
+		
 	@Autowired
-	CustomerService cservice;
+	ArtistService aservice;
 	
 	@Autowired
 	LoginService lservice;
@@ -29,21 +32,21 @@ public class CustomerController {
 	@Autowired
 	RoleService rservice;
 	
-	@GetMapping("/getCustomer")
-	public Customer getCustomer(@RequestParam("user_id") int user_id)
+	@GetMapping("/getArtist")
+	public Artist getArtist(@RequestParam("user_id") int user_id)
 	{
 		Login l=lservice.getByID(user_id);
-		return cservice.getCustomer(l);
+		return aservice.getArtist(l);
 	}
-	
-	@PostMapping("/regCustomer")
-	public Customer regCustomer(@RequestBody CustomerReg cs) 
+	@PostMapping("/regArtist")
+	public Artist regArtist(@RequestBody ArtistReg cs) 
 	{
-		Role r= rservice.getRole(3);
+		Role r= rservice.getRole(2);
 		Login l=new Login(cs.getUser_name(),cs.getPassword(),r,true,cs.getEmail(),cs.getQue_id(),cs.getAnswer());
 		Login saved=lservice.save(l);
 		
-		Customer c=new Customer(cs.getFname(),cs.getLname(),cs.getArea_id(),cs.getAddress(),cs.getContact(),saved);
-		return cservice.saveCustomer(c);
+		Artist c=new Artist(cs.getFname(),cs.getLname(),cs.getArea_id(),cs.getAddress(),cs.getContact(),cs.getSpeciality(),saved);
+		return aservice.saveArtist(c);
 	}
+	
 }

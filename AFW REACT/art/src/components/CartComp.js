@@ -1,11 +1,13 @@
-import { Button } from 'bootstrap';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const CartPage = () => {
   const [arts, setArts] = useState([]);
   const navigate = useNavigate();
-  const [msg, setMsg] = useState([]);
+  const [msg, setMsg] = useState(null);
 
   useEffect(() => {
     const storedCartItems = JSON.parse(localStorage.getItem('cartItems'));
@@ -23,20 +25,30 @@ const CartPage = () => {
   };
 
   const handleCheckout = async () => {
-    const custId = JSON.parse(localStorage.getItem('loggedcustomer')).cust_id; // Replace with the actual customer ID
+    const custId = JSON.parse(localStorage.getItem('loggedcustomer')).cust_id;
     const totalAmount = calculateTotal();
-    const paymentId = Math.random().toString(36).substr(2, 9); // Generate a random payment ID
-    const payMode = 'credit_card'; // Replace with the selected payment mode
+    const paymentId = Math.random().toString(36).substr(2, 9);
+    const payMode = 'credit_card';
+    const datetime = new Date();
+    const year = datetime.getFullYear();
+    const month = (datetime.getMonth() + 1).toString().padStart(2, '0');
+    const day = datetime.getDate().toString().padStart(2, '0');
+    const hour = datetime.getHours().toString().padStart(2, '0');
+    const minute = datetime.getMinutes().toString().padStart(2, '0');
+    const second = datetime.getSeconds().toString().padStart(2, '0');
 
+    const formattedDatetime = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
     const artIds = arts.map((item) => item.art_id);
 
     const requestData = {
       cust_id: custId,
-      total_amount: totalAmount,
+      amount: totalAmount,
       payment_id: paymentId,
       pay_mode: payMode,
       art_id: artIds,
+      datetime:formattedDatetime, 
     };
+
     try {
       const response = await fetch("http://localhost:8080/saveOrder", {
         method: 'POST',
@@ -47,55 +59,65 @@ const CartPage = () => {
       });
 
       if (response.ok) {
-        // Handle success, e.g., show a success message or redirect to an order confirmation page
-        navigate("/order")
+        setMsg('Order placed successfully');
         console.log('Order placed successfully!');
+            localStorage.removeItem('cartItems');
+            setArts([]);
+            navigate("/order");
       } else {
-        setMsg("Order Not Placed");
-
-        // Handle error, e.g., show an error message
+        setMsg('Order Not Placed');
         console.error('Error placing the order');
       }
     } catch (error) {
       console.error('An error occurred:', error);
     }
   };
+
   return (
     <div className="container mt-5">
       <h2>Your Cart</h2>
-
-
-      <ul className="list-group mt-4">
-        {arts.map((item) => (
-          <li key={item.art_id} className="list-group-item cart-item">
-            <div className="cart-item-details">
-              <strong>{item.art_name}</strong>
-              <div className="cart-item-info">
-                Price: {item.price} rs
-                <br />
-                Subtotal: {item.price} rs
-              </div>
-            </div>
-            <button
-              className="btn btn-danger"
-              onClick={() => handleRemoveItem(item.art_id)}
-            >
-              Remove
-            </button>
-          </li>
-        ))}
-      </ul>
-      <div className="cart-buttons">
-        <Link to="/customer_home" className="btn btn-primary">
-          Continue Shopping
-        </Link>
-        <Button className="btn btn-primary" onClick={handleCheckout}>
-          Buy
-        </Button>
-      </div>
-
-      <p className="cart-subtotal mt-3">Cart Subtotal: {calculateTotal()} rs</p>
-    </div >
+      <table className="table mt-4">
+  <thead>
+    <tr>
+      <th scope="col">Art Name</th>
+      <th scope="col">Price</th>
+      {/* <th scope="col">Service Charge</th> */}
+      <th scope="col">Subtotal</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {arts.map((item) => (
+      <tr key={item.art_id}>
+        <td>
+          <strong>{item.art_name}</strong>
+        </td>
+        <td>{item.price} rs</td>
+        <td>{item.price} rs</td>
+        <td>
+          <button
+            className="btn btn-danger"
+            onClick={() => handleRemoveItem(item.art_id)}
+          >
+            Remove
+          </button>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+<div className="cart-buttons mt-4">
+  <Link to="/customer_home" className="btn btn-primary me-2">
+    Continue Shopping
+  </Link>
+  <button className="btn btn-success" onClick={handleCheckout}>
+    Buy
+  </button>
+</div>
+<p className="cart-subtotal mt-3">
+  <strong>Cart Subtotal:</strong> {calculateTotal()} rs
+</p>
+    </div>
   );
 };
 

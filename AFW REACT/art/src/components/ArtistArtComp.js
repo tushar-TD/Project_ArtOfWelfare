@@ -2,51 +2,50 @@ import React, { useEffect, useState } from "react";
 
 const MyArts = () => {
   const [arts, setArts] = useState([]);
-  const [cartItems, setCartItems] = useState([]);
-
   const loggedArtist = JSON.parse(localStorage.getItem("loggedartist"));
 
   useEffect(() => {
-    if (loggedArtist && loggedArtist.artist_id) {
-      const artistId = loggedArtist.artist_id;
+    const fetchData = async () => {
+      if (loggedArtist && loggedArtist.artist_id) {
+        try {
+          const artistId = loggedArtist.artist_id;
+          const response = await fetch(`http://localhost:8080/getArtByArtistId?artist_id=${artistId}`);
 
-      fetch("http://localhost:8080/getArtByArtistId?artist_id=" + artistId)
-        .then((resp) => resp.json())
-        .then((obj) => {
-          setArts(obj);
-        });
-    }
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+
+          const data = await response.json();
+          setArts(data);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      }
+    };
+
+    fetchData();
   }, [loggedArtist]);
 
-  useEffect(() => {
-    const storedCartItems = JSON.parse(localStorage.getItem("cartItems"));
-    setCartItems(storedCartItems || []);
-  }, []);
-
-  const handleAddToCart = (artPiece) => {
-    if (!cartItems.some((item) => item.art_id === artPiece.art_id)) {
-      const updatedCartItems = [...cartItems, artPiece];
-      localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
-      setCartItems(updatedCartItems);
-    }
-  };
 
   return (
     <div className="art-gallery">
       {arts.map((artPiece) => (
         <div key={artPiece.art_id} className="art-card">
-          <img src={`data:image/jpeg;base64,${artPiece.image}`} alt={artPiece.title} />
-          <h3>{artPiece.art_name}</h3>
-          <p>Description: {artPiece.description}</p>
-          <p>Artist: {artPiece.artist_name}</p>
-          <p>Price: {artPiece.price}</p>
-          <p>Status: {artPiece.status}</p>
-          <button
-            onClick={() => handleAddToCart(artPiece)}
-            disabled={cartItems.some((item) => item.art_id === artPiece.art_id)}
-          >
-            {cartItems.some((item) => item.art_id === artPiece.art_id) ? "Already in Cart" : "Add to Cart"}
-          </button>
+          <img
+            src={`data:image/jpeg;base64,${artPiece.image}`}
+            alt={artPiece.title}
+            width="300"  // Set your desired width in pixels
+            height="200" // Set your desired height in pixels
+          />
+
+          <div className="art-piece-container">
+            <h3 className="art-title">{artPiece.art_name}</h3>
+            <p className="art-description">Description: {artPiece.description}</p>
+            <p className="art-artist">Artist: {artPiece.artist_name}</p>
+            <p className="art-price">Price: {artPiece.price}</p>
+            <p className="art-status">Status: {artPiece.status}</p>
+          </div>
+
         </div>
       ))}
     </div>

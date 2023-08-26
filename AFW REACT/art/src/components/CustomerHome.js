@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ArtGallery from './ArtGallery'; // Import your ArtGallery component
@@ -27,26 +28,27 @@ export default function CustomerHome() {
                         <ul className="navbar-nav">
                             <li className="nav-item">
                                 <Link className="nav-link" to="/customer_profile">
-                                    {/* <h3>{customer && `${customer.fname} ${customer.lname}`}</h3> */}
-                                    <h3 className="text-center mt-4">
-                                        <span className="text-primary">
-                                            {customer && `${customer.fname} ${customer.lname}`}
-                                        </span>
+                                   {/* <h3>{customer && `${customer.fname} ${customer.lname}`}</h3> */}
+                                   <h3 className="text-center mt-4">
+                                    <span className="text-primary">
+                                        {customer && `${customer.fname} ${customer.lname}`}
+                                    </span>
                                     </h3>
                                 </Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/cart">
-                                    <h3 className="text-center mt-4">
-                                        <span className="">
-                                            Cart
-                                        </span>
-                                    </h3>
+                                <h3 className="text-center mt-4">
+                                    <span className="">
+                                        Cart
+                                    </span>
+                                    </h3> 
                                 </Link>
                             </li>
                         </ul>
                     </div>
-                    <Link className="btn btn-danger white px-3" to="/logout">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <Link className="btn btn-danger white px-3 text-center mt-4" to="/logout">
                         <b>Logout</b>
                     </Link>
                 </div>
@@ -58,3 +60,4 @@ export default function CustomerHome() {
         </div>
     );
 }
+

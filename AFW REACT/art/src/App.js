@@ -15,10 +15,9 @@ import ArtistReg from "./components/ArtistReg";
 import artlogo from "../src/images/artlogo1.png";
 import NgoReg from "./components/NgoReg";
 import AddArt from "./components/AddArt";
-import ArtArt from "./components/ArtArt";
 import Cart from "./components/CartComp";
-import MyArts from "./components/ArtistArtComp";
-import Order from "./components/order";
+import Order from "./components/Order";
+
 function App() {
   //referering initial state of logged
   const mystate = useSelector((state) => state.logged);
@@ -127,7 +126,7 @@ function App() {
         <Route path="/addart" element={<AddArt></AddArt>}></Route>
         <Route path="/cart" element={<Cart></Cart>}></Route>
         <Route path="/order" element={<Order></Order>}></Route>
-        <Route path="/my_art" element={<MyArts></MyArts>}></Route>
+        
         <Route exact element={<Navigate to="/homepage" />} path="/" />
         <Route exact element={<Navigate to="/404" />} path="*" />
       </Routes>

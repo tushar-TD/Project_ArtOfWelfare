@@ -26,23 +26,24 @@ public class OrderController {
 	
 	
 	@PostMapping("/saveOrder")
-	public List<OrderDetail> saveOrder(@RequestBody OrderPojo op )
+	public boolean saveOrder(@RequestBody OrderPojo op )
 	{
-		Order o = new Order(op.getCust_id(),op.getAmount(),op.getPayment_id(),op.getPay_mode());
+		Order o = new Order(op.getCust_id(),op.getAmount(),op.getPayment_id(),op.getPay_mode(),op.getDatetime());
 		Order saved=oservice.saveOrder(o);
-     	List<OrderDetail> list=new ArrayList<>();
-     	
-		
-		for(int i=0;i<op.getArt_id().size();i++)
+     	List<OrderDetail> odlist=new ArrayList<>();
+     	boolean flag=false;
+     	List<Integer> list=op.getArt_id();
+		for(int n : list)
 		{
-			OrderDetail od=new OrderDetail(saved,op.getArt_id().get(i));
-			OrderDetail o1 = odservice.saveOrder(od);
-			list.add(o1);
+			OrderDetail od = new OrderDetail(saved, n);
+     		odlist.add(od);
 		}
-		return list;
+		for(OrderDetail od : odlist)
+		{
+			flag = odservice.save(od);
+		}
 		
-		
-			
+		return flag;
 	}
 		
 		

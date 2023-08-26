@@ -18,3 +18,11 @@
     width: 300px;
     height: 200px; 
     object-fit: cover; }
+
+    .sold {
+      background-color: red; /* or any other style you want for sold items */
+    }
+    
+    .unsold {
+      background-color: green; /* or any other style you want for unsold items */
+    }

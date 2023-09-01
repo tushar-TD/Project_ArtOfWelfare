@@ -1,4 +1,3 @@
-
 import { useReducer, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +14,9 @@ export default function LoginComp() {
             case 'update':
                 return { ...state, [action.fld]: action.val };
             case 'reset':
+                
                 return init;
+        
             default:
                 return state;
         }
@@ -60,11 +61,11 @@ export default function LoginComp() {
                 if (Object.keys(obj).length === 0) {
                     setMsg("Wrong User Name or Password");
                 } else {
-                    reduxAction(login());
                     localStorage.setItem("loggeduser", JSON.stringify(obj));
                     if (obj.approve === false) {
                         setMsg("Your request has not been approved yet. Please wait until approval");
                     } else {
+                        reduxAction(login());
                         switch (obj.role_id.role_id) {
                             case 1:
                                 navigate("/admin_home");
@@ -91,10 +92,10 @@ export default function LoginComp() {
     return (
         <div>
             <div>
-                <h3 className="bg-primary text-center p-4">Login Form</h3>
+                <h1 className=" text-center text-primary p-4">Login </h1>
             </div>
-            <div className="container d-flex justify-content-center align-items-center vh-100 bg-white">
-                <form className="col-md-6 p-4 rounded bg-light">
+            <div className="container d-flex justify-content-center align-items-center vh-95 bg-white">
+                <form className="col-md-6 p-4 my-5 rounded bg-light">
                     <div className="form-outline mb-4">
                         <label className="form-label" htmlFor="user_name">Username</label>
                         <input
@@ -105,6 +106,7 @@ export default function LoginComp() {
                             onChange={(e) => {
                                 dispatch({ type: 'update', fld: 'user_name', val: e.target.value });
                                 setErrors({ ...errors, user_name: '' });
+                                setMsg('');
                             }}
                         />
                         {errors.user_name && <div className="invalid-feedback">{errors.user_name}</div>}
@@ -119,6 +121,7 @@ export default function LoginComp() {
                             onChange={(e) => {
                                 dispatch({ type: 'update', fld: 'password', val: e.target.value });
                                 setErrors({ ...errors, password: '' });
+                                setMsg('');
                             }}
                         />
                         {errors.password && <div className="invalid-feedback">{errors.password}</div>}
@@ -131,11 +134,10 @@ export default function LoginComp() {
                     <button type="button" className="btn btn-primary btn-block mb-4" onClick={sendData}>Sign in</button> &nbsp;&nbsp;
                     <button type="button" className="btn btn-primary btn-block mb-4" onClick={() => { dispatch({ type: 'reset' }) }}>Reset</button>
                     <div className="text-center">
-                        <p>{msg}</p>
+                        <p className="text-danger">{msg}</p>
                     </div>
                 </form>
             </div>
         </div>
     );
 }
-

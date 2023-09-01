@@ -5,7 +5,7 @@ import gallery3 from "../images/c3.png";
 import artist from "../images/artist.jpg";
 import customer from "../images/customer.jpeg";
 import ngo from "../images/ngo.jpg";
-import ngo1 from "../images/ngo1.jpg";
+
 
 
 import iphone from "../images/iphone.png";
@@ -35,15 +35,15 @@ const Home = () => {
           data-bs-ride="carousel"
         >
           <div class="carousel-inner">
-            <div class="carousel-item active" data-bs-interval="5000">
-              <img src={gallery1} class="d-block w-100" alt="..." />
+            <div class="carousel-item active" data-bs-interval="3000">
+              <img src={gallery3} class="d-block w-100 "  alt="..." />
               
             </div>
             <div class="carousel-item" data-bs-interval="2000">
               <img src={gallery2} class="d-block w-100" alt="..." />
             </div>
             <div class="carousel-item">
-              <img src={gallery3} class="d-block w-100" alt="..." />
+              <img src={gallery1} class="d-block w-100" alt="..." />
             </div>
           </div>
           
@@ -115,7 +115,7 @@ const Home = () => {
   </div>
   <div class="col">
     <div class="card h-100">
-      <img  src={ngo1} class="card-img-top" alt="..."/>
+      <img  src={ngo} class="card-img-top" alt="..."/>
       <div class="card-body">
         <h5 class="card-title">NGO's</h5>
         <p class="card-text">Our website's funds are making a direct impact as they flow to dedicated NGOs. These organizations are not just recipients; they are catalysts for welfare. With your support, they are empowered to drive meaningful change and improve lives. Thank you for being a part of this important journey with us.</p>
@@ -236,7 +236,7 @@ const Home = () => {
         </section>
 
         <div className="text-center text-light p-5 fs-6 bg-black">
-          © 2018-2019 Kin Kao, Inc. All RIGHT RESERVED.
+          © 2022-2023 ART FOR WELFARE, Inc. All RIGHT RESERVED.
         </div>
       </footer>
     </div>

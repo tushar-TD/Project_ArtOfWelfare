@@ -37,14 +37,14 @@ const ArtGallery = () => {
   };
 
   return (
-    <div className="art-gallery">
+    <div className="art-gallery m-3">
       {artList.map((artPiece) => (
         <div key={artPiece.art_id} className="art-card">
           <img src={`data:image/jpeg;base64,${artPiece.image}`} alt={artPiece.title} className='art-image' />
           <h3>{artPiece.art_name}</h3>
           <p>Description: {artPiece.description}</p>
-          <p>Artist: {artPiece.artist_name}</p>
-          <p>Price: {artPiece.price}</p>
+          {/* <p>Artist: {artPiece.artist_name}</p> */}
+          <p>Price:₹ {artPiece.price}</p>
           <button
             onClick={() => addToCart(artPiece)}
             disabled={cartItems.some((item) => item.art_id === artPiece.art_id)}

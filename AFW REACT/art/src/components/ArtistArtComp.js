@@ -10,11 +10,11 @@ const MyArts = () => {
         try {
           const artistId = loggedArtist.artist_id;
           const response = await fetch(`http://localhost:8080/getArtByArtistId?artist_id=${artistId}`);
-
+  
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }
-
+  
           const data = await response.json();
           setArts(data);
         } catch (error) {
@@ -22,30 +22,21 @@ const MyArts = () => {
         }
       }
     };
-
+  
     fetchData();
   }, [loggedArtist]);
-
+  
 
   return (
-    <div className="art-gallery">
+    <div className="art-gallery  m-3">
       {arts.map((artPiece) => (
         <div key={artPiece.art_id} className="art-card">
-          <img
-            src={`data:image/jpeg;base64,${artPiece.image}`}
-            alt={artPiece.title}
-            width="300"  // Set your desired width in pixels
-            height="200" // Set your desired height in pixels
-          />
-
-          <div className="art-piece-container">
-            <h3 className="art-title">{artPiece.art_name}</h3>
-            <p className="art-description">Description: {artPiece.description}</p>
-            <p className="art-artist">Artist: {artPiece.artist_name}</p>
-            <p className="art-price">Price: {artPiece.price}</p>
-            <p className="art-status">Status: {artPiece.status}</p>
-          </div>
-
+          <img src={`data:image/jpeg;base64,${artPiece.image}`} alt={artPiece.title} className='art-image' />
+          <h3>{artPiece.art_name}</h3>
+          <p>Description: {artPiece.description}</p>
+          {/* <p>Artist: {artPiece.artist_name}</p> */}
+          <p>Price: ₹ {artPiece.price} </p>
+          <p>Status: {artPiece.status} </p>
         </div>
       ))}
     </div>

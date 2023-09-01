@@ -1,7 +1,10 @@
 import React, {useEffect, useReducer, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
+import { Link, NavLink } from "react-router-dom";
+import artlogo from "../images/artlogo1.png";
+
+
 
 export default function AddArt() {
   //const loggedArtist = JSON.parse(localStorage.getItem("loggedartist")).artist_id;
@@ -29,7 +32,7 @@ export default function AddArt() {
   const [allcategories, setallcategories] = useState([]);
   const [allngo, setallngo] = useState([]);
   const [file, setFile] = useState();
-  const navigate = useNavigate();
+ 
 
   const artist_id = JSON.parse(localStorage.getItem("loggedartist")).artist_id;
  
@@ -65,14 +68,33 @@ export default function AddArt() {
             console.log(resp);
             if(resp.status === 200)
             {
-              toast.success("Art added successfully", {
-                onClose: () => navigate('/artist_home')
-              });
+             
+             // alert("Art added successful")
+             Swal.fire({
+              icon: "success",
+              title: "Success",
+              text: "Art Added Successfully",
+              
+            }).then(() => {
+              dispatch({ type: "reset" });
+              setFile(null);
+              
+            });
+              
             }
             else {
-              toast.error("Image unable to update. Try again!!", {
-                onClose: () => navigate('/artist_home')
+
+              Swal.fire({
+                icon: "error",
+                title: "Oops!!",
+                text: "Some Error Occured, Try Again !",
+              }).then(() => {
+                dispatch({ type: "reset" });
+                setFile(null);
+                // navigate('/artist_home');
               });
+              //alert("Image unable to update.Try again!!");
+              
             }
           })
           .then(data => console.log(JSON.stringify(data)))
@@ -101,8 +123,42 @@ export default function AddArt() {
 
       return (
         <div>
-          <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
-          <h2 className='header d-flex justify-content-center align-items-center'>ADD ART</h2>
+           <nav className="navbar bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+        <div className="container">
+          <a className="navbar-brand" href="#">
+            <img src={artlogo} height="66" alt="logo" loading="lazy" style={{ marginTop: "-1px" }} />
+          </a>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li className="nav-item mx-2">
+                <NavLink className="nav-link white  px-3" to="/addart">
+                  Add Art
+                </NavLink>
+              </li>
+              {/* <NavLink className="nav-link white text-danger fw-bolder px-2" to="/addart">
+                Welcome, {artist && artist.fname}
+              </NavLink> */}
+            </ul>
+          </div>
+          <Link className="btn btn-danger white px-3" to="/logout">
+            <b>Logout</b>
+          </Link>
+        </div>
+      </nav>
+
+          <h2 className='header d-flex justify-content-center align-items-center m-4'>ADD ART</h2>
           <div className='container d-flex justify-content-center align-items-center' >
     
             <form className='col-md-6 p-4 rounded bg-light' >
@@ -112,6 +168,7 @@ export default function AddArt() {
                   type="text"
                   className="form-control"
                   id="art_name"
+                  required
                   value={info.art_name}
                   onChange={(e) => {
                     dispatch({
@@ -125,8 +182,10 @@ export default function AddArt() {
                 <input
                 type="text"
                 id="description"
+                
                 className="form-control"
                 value={info.description}
+                required
                 onChange={(e) => {
                     dispatch({
                       type: 'update', fld: 'description', val: e.target.value
@@ -217,6 +276,8 @@ export default function AddArt() {
           </button>
         </form>
       </ div >
+      {/* <p>{JSON.stringify(info)}</p>
+      <p>Artist ID: {artist_id}</p> */}
     </div>
   )
 }

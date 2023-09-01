@@ -21,9 +21,9 @@ const ArtistHome = () => {
     <div>
       <nav className="navbar bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
         <div className="container">
-          <a className="navbar-brand" href="#">
+          <Link className="navbar-brand" href="#">
             <img src={artlogo} height="66" alt="logo" loading="lazy" style={{ marginTop: "-1px" }} />
-          </a>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"

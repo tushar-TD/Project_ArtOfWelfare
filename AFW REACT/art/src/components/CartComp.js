@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
+
+
 
 const CartPage = () => {
   const [arts, setArts] = useState([]);
@@ -29,15 +30,15 @@ const CartPage = () => {
     const totalAmount = calculateTotal();
     const paymentId = Math.random().toString(36).substr(2, 9);
     const payMode = 'credit_card';
-    const datetime = new Date();
-    const year = datetime.getFullYear();
-    const month = (datetime.getMonth() + 1).toString().padStart(2, '0');
-    const day = datetime.getDate().toString().padStart(2, '0');
-    const hour = datetime.getHours().toString().padStart(2, '0');
-    const minute = datetime.getMinutes().toString().padStart(2, '0');
-    const second = datetime.getSeconds().toString().padStart(2, '0');
+    // const datetime = new Date();
+    // const year = datetime.getFullYear();
+    // const month = (datetime.getMonth() + 1).toString().padStart(2, '0');
+    // const day = datetime.getDate().toString().padStart(2, '0');
+    // const hour = datetime.getHours().toString().padStart(2, '0');
+    // const minute = datetime.getMinutes().toString().padStart(2, '0');
+    // const second = datetime.getSeconds().toString().padStart(2, '0');
 
-    const formattedDatetime = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+    // const formattedDatetime = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
     const artIds = arts.map((item) => item.art_id);
 
     const requestData = {
@@ -46,7 +47,7 @@ const CartPage = () => {
       payment_id: paymentId,
       pay_mode: payMode,
       art_id: artIds,
-      datetime:formattedDatetime, 
+      // datetime:formattedDatetime, 
     };
 
     try {
@@ -59,11 +60,21 @@ const CartPage = () => {
       });
 
       if (response.ok) {
-        setMsg('Order placed successfully');
-        console.log('Order placed successfully!');
-            localStorage.removeItem('cartItems');
-            setArts([]);
-            navigate("/order");
+
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Order Placed !",
+          
+        }).then(() => {
+          
+          setMsg('Order placed successfully');
+          //console.log('Order placed successfully!');
+              localStorage.removeItem('cartItems');
+              setArts([]);
+              navigate("/order");
+        });
+       
       } else {
         setMsg('Order Not Placed');
         console.error('Error placing the order');
@@ -82,7 +93,7 @@ const CartPage = () => {
       <th scope="col">Art Name</th>
       <th scope="col">Price</th>
       {/* <th scope="col">Service Charge</th> */}
-      <th scope="col">Subtotal</th>
+      {/* <th scope="col">Subtotal</th> */}
       <th scope="col"></th>
     </tr>
   </thead>
@@ -92,8 +103,8 @@ const CartPage = () => {
         <td>
           <strong>{item.art_name}</strong>
         </td>
-        <td>{item.price} rs</td>
-        <td>{item.price} rs</td>
+        <td>₹ {item.price} </td>
+        {/* <td>₹ {item.price} </td> */}
         <td>
           <button
             className="btn btn-danger"
@@ -115,7 +126,7 @@ const CartPage = () => {
   </button>
 </div>
 <p className="cart-subtotal mt-3">
-  <strong>Cart Subtotal:</strong> {calculateTotal()} rs
+  <strong>Cart Subtotal:</strong>₹ {calculateTotal()} 
 </p>
     </div>
   );

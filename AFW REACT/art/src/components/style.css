@@ -90,3 +90,7 @@ background-image: url(../images/gallery2.jpg);
     display: block;
     margin-left: 500px;
 }
+td,thead {
+    text-align: center;
+    vertical-align: middle;
+  }

@@ -1,5 +1,6 @@
 import React, { useEffect, useReducer, useState } from 'react'
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 function NgoReg() {
   const init = 
@@ -24,6 +25,10 @@ function NgoReg() {
     const validateData = (name, value) => {
       let hasError = false, error = "";
       switch (name) {
+        default:
+    
+         break;
+
           case "email":
               let regex4 = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
@@ -33,11 +38,12 @@ function NgoReg() {
               }
               break;
           case "password":
-              let regex1 = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-              //  let regex1=/^.{8,}$/
+             
+             let regex1= /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%*?&]{8,}$/;
+              
               if (!regex1.test(value)) {
                   hasError = true;
-                  error = "Password Should be more than 5 characters and valid "
+                  error = "Password Should be at least one alphabetical character ,one digit ,  one special character and 10 characters long "
               }
               break;
           case "ngo_name":
@@ -49,11 +55,11 @@ function NgoReg() {
               }
               break;
           case "domain":
-              let regex3 = /^[A-Za-z ]{1,50}$/;
+              let regex3 = /^[A-Za-z ]{1,20}$/;
 
               if (!regex3.test(value)) {
                   hasError = true;
-                  error = "Last Name Should be valid and not more than 15 characters"
+                  error = "Last Name Should be valid and not more than 20 characters"
               }
               break;
           case "contact":
@@ -66,20 +72,27 @@ function NgoReg() {
               break;
          
           case "address":
-              let regex10 = /^[A-Za-z\s\d{1,}]{1,}$/;
+            let regex10 =/^[A-Za-z0-9\s.,#-/()]*$/;
 
               if (!regex10.test(value)) {
                   hasError = true;
-                  error = "address Should Not contain symbols"
+                  error = "address should not contain symbols"
               }
               break;
           case "user_name":
-            let regex6 = /^[a-zA-Z0-9_]{8,12}$/;
+            let regex6 = /^[a-zA-Z0-9_@]{8,12}$/;
             if (!regex6.test(value)) {
               hasError = true;
               error = "Username should be 8 to 12 characters"
           }
-          break;    
+          break;  
+          case "account_no":
+            let regex7 = /^[0-9]{12}$/;
+            if (!regex7.test(value)) {
+              hasError = true;
+              error = "Account number should be 12 digits "
+          }
+          break;   
       }
       return { hasError, error }
   }
@@ -100,6 +113,9 @@ function NgoReg() {
       case 'reset':
         return init;
 
+        default:
+          return state;
+
     }
 
   }
@@ -112,6 +128,7 @@ function NgoReg() {
   const [file, setFile] = useState();
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+  const [msg, setMsg] = useState("");
 
   const onInputChange = (name, value, dispatch) => {
     //validation logic
@@ -201,20 +218,40 @@ const onFocusOut = (name, value, dispatch) => {
             console.log(resp);
             if(resp.status === 200)
             {
-              alert("Registration successful")
+             // alert("Registration successful")
+             Swal.fire({
+              icon: "success",
+              title: "Success",
+              text: "Registration Successful",
+              
+            }).then(() => {
+              
               navigate("/");
+            });
+
             }
             else {
-              alert("Certificate unable to update.Try again!!");
-              navigate("/");
+            
+              setMsg("Certificate unable to update.Try again!!");
+              Swal.fire({
+                icon: "error",
+                title: "Oops!!",
+                text: "Some Error Occured",
+              }).then(() => {
+                  
+                navigate("/reg_ngo");
+              });
+             
+              //navigate("/");
             }
           })
           .then(data => console.log(JSON.stringify(data)))
           })
           .catch((error) => {
           console.log(error);
-          alert("Server Error");
-           window.location.reload();
+         // alert("Server Error");
+           //window.location.reload();
+           setMsg("Server error, try again");
     
 })
 .catch((error)=>{
@@ -266,7 +303,7 @@ const onFocusOut = (name, value, dispatch) => {
               onChange={(e) => { onInputChange("ngo_name", e.target.value, dispatch) }}
               onBlur={(e) => { onFocusOut("ngo_name", e.target.value, dispatch) }} 
             />
-            <div id="ngo_namehelp" className="form-text">....</div>
+            
             <p className="invalid-feedback" style={{ display: info.ngo_name.touched && info.ngo_name.hasError ? "block" : "none", color: "red" }}> {info.ngo_name.error} </p>
 
           </div>
@@ -281,7 +318,7 @@ const onFocusOut = (name, value, dispatch) => {
               onChange={(e) => { onInputChange("domain", e.target.value, dispatch) }}
               onBlur={(e) => { onFocusOut("domain", e.target.value, dispatch) }} 
             />
-            <div id="domainhelp" className="form-text">....</div>
+       
             <p className="invalid-feedback" style={{ display: info.domain.touched && info.domain.hasError ? "block" : "none", color: "red" }}> {info.domain.error} </p>
           </div>
           <div className="mb-3">
@@ -295,7 +332,7 @@ const onFocusOut = (name, value, dispatch) => {
               onChange={(e) => { onInputChange("email", e.target.value, dispatch) }}
               onBlur={(e) => { onFocusOut("email", e.target.value, dispatch) }} 
             />
-            <div id="emailhelp" className="form-text">....</div>
+            
             <p className="invalid-feedback" style={{ display: info.email.touched && info.email.hasError ? "block" : "none", color: "red" }}> {info.email.error} </p>
           </div>
           <div className="mb-3">
@@ -309,7 +346,7 @@ const onFocusOut = (name, value, dispatch) => {
               onChange={(e) => { onInputChange("contact", e.target.value, dispatch) }}
               onBlur={(e) => { onFocusOut("contact", e.target.value, dispatch) }} 
             />
-            <div id="contacthelp" className="form-text">....</div>
+           
             <p className="invalid-feedback" style={{ display: info.contact.touched && info.contact.hasError ? "block" : "none", color: "red" }}> {info.contact.error} </p>
           </div>
           <div class="mb-3">
@@ -321,7 +358,7 @@ const onFocusOut = (name, value, dispatch) => {
               onChange={(e) => { onInputChange("address", e.target.value, dispatch) }}
               onBlur={(e) => { onFocusOut("address", e.target.value, dispatch) }} 
             />
-            <div id="addresshelp" className="form-text">....</div>
+           
             <p className="invalid-feedback" style={{ display: info.address.touched && info.address.hasError ? "block" : "none", color: "red" }}> {info.address.error} </p>
           </div>
 
@@ -382,7 +419,7 @@ const onFocusOut = (name, value, dispatch) => {
                 );
               })}
             </select>
-            <div id="area_idhelp" className='form-text'>...</div>
+            
           </div>
 
           <div className="mb-3">
@@ -396,7 +433,7 @@ const onFocusOut = (name, value, dispatch) => {
                 onChange={(e) => { onInputChange("account_no", e.target.value, dispatch) }}
                 onBlur={(e) => { onFocusOut("account_no", e.target.value, dispatch) }} 
               />
-              <div id="account_namehelp" className="form-text">....</div>
+              
               <p className="invalid-feedback" style={{ display: info.account_no.touched && info.account_no.hasError ? "block" : "none", color: "red" }}> {info.account_no.error} </p>
           </div>
 
@@ -426,7 +463,7 @@ const onFocusOut = (name, value, dispatch) => {
                 onChange={(e) => { onInputChange("user_name", e.target.value, dispatch) }}
                 onBlur={(e) => { onFocusOut("user_name", e.target.value, dispatch) }} 
               />
-              <div id="user_namehelp" className="form-text">....</div>
+             
               <p className="invalid-feedback" style={{ display: info.user_name.touched && info.user_name.hasError ? "block" : "none", color: "red" }}> {info.user_name.error} </p>
           </div>
           <div className="mb-3">
@@ -440,7 +477,7 @@ const onFocusOut = (name, value, dispatch) => {
                 onChange={(e) => { onInputChange("password", e.target.value, dispatch) }}
                 onBlur={(e) => { onFocusOut("password", e.target.value, dispatch) }} 
               />
-              <div id="passwordhelp" className="form-text">....</div>
+              
               <p className="invalid-feedback" style={{ display: info.password.touched && info.password.hasError ? "block" : "none", color: "red" }}> {info.password.error} </p>
           </div>
           <div className="mb-3">
@@ -485,7 +522,8 @@ const onFocusOut = (name, value, dispatch) => {
         </form>
       </ div >
     {/* <p>{JSON.stringify(formData)}</p> */}
-      <p>{file && file.name}</p>
+      {/* <p>{file && file.name}</p> */}
+      <p className='text-danger'>{msg}</p>
     </div>
   )
 }

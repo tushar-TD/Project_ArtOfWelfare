@@ -1,4 +1,4 @@
-
+import artlogo from "../images/artlogo1.png";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ArtGallery from './ArtGallery'; // Import your ArtGallery component
@@ -21,19 +21,19 @@ export default function CustomerHome() {
         <div>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container">
-                    <a className="navbar-brand" href="#">
-                        Customer Home
-                    </a>
+                <Link className="navbar-brand" to="/homepage">
+            <img src={artlogo} height="66" alt="logo" loading="lazy" style={{ marginTop: "-1px" }} />
+          </Link>
                     <div className="navbar-collapse justify-content-end">
                         <ul className="navbar-nav">
                             <li className="nav-item">
                                 <Link className="nav-link" to="/customer_profile">
-                                   {/* <h3>{customer && `${customer.fname} ${customer.lname}`}</h3> */}
-                                   <h3 className="text-center mt-4">
-                                    <span className="text-primary">
-                                        {customer && `${customer.fname} ${customer.lname}`}
+                                   
+                                   <h4 className="text-center  mt-4">
+                                    <span className="text-danger ">
+                                       Welcome, {customer && `${customer.fname} ${customer.lname}`}
                                     </span>
-                                    </h3>
+                                    </h4>
                                 </Link>
                             </li>
                             <li className="nav-item">
@@ -54,7 +54,7 @@ export default function CustomerHome() {
                 </div>
             </nav>
             <div className="container mt-4">
-                <h1>Welcome to Customer's Home Page</h1>
+                
                 <ArtGallery />
             </div>
         </div>

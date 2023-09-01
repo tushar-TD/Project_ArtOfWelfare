@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 function ForgotPassword() {
     const [emailid, setEmail] = useState("");
@@ -29,7 +30,7 @@ function ForgotPassword() {
                 if (Object.keys(data).length === 0) {
                     setMsg("Email not found");
                 } else {
-                    setSecurityQuestion(data.que_text);                     //////////////////////////////////////
+                    setSecurityQuestion(data.que_text);                     
                     setIsQuestionAnswered(true);
                 }
             })
@@ -91,10 +92,28 @@ function ForgotPassword() {
                 console.log(data.status)
                 console.log(data)
                 if (data===true) {
-                        alert("Password successfully reset !");
-                        navigate('/');
+
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success",
+                        text: "Password Reset Successful",
+                        
+                      }).then(() => {
+                        
+                        navigate("/login");
+                      });
+                        //alert("Password successfully reset !");
+                       // navigate('/');
                     
                 } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops!!",
+                        text: "Some Error Occured",
+                      }).then(() => {
+                          
+                        navigate("/forgotpassword");
+                      });
                     setMsg("Password reset failed. Please try again."); // Display failure message
                 }
             })
